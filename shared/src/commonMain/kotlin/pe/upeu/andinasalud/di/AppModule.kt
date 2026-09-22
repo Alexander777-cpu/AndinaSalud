@@ -8,6 +8,7 @@ import pe.upeu.andinasalud.domain.repository.CitaRepository
 import pe.upeu.andinasalud.domain.usecase.CancelarCitaUseCase
 import pe.upeu.andinasalud.domain.usecase.ObtenerCitasUseCase
 import pe.upeu.andinasalud.domain.usecase.SolicitarCitaUseCase
+import pe.upeu.andinasalud.presentation.perfil.PerfilViewModel
 
 val appModule = module {
     // REGLA CRÍTICA: Debe ser 'single' y tipado a la interfaz 'CitaRepository'
@@ -17,6 +18,9 @@ val appModule = module {
     factory { ObtenerCitasUseCase(get()) }
     factory { SolicitarCitaUseCase(get()) }
     factory { CancelarCitaUseCase(get()) }
+
+    // ViewModels
+    factory { PerfilViewModel(get()) }
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
