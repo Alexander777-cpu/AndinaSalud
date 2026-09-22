@@ -21,7 +21,7 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import pe.upeu.andinasalud.presentation.components.ErrorView
 import pe.upeu.andinasalud.presentation.components.LoadingView
@@ -94,7 +95,7 @@ fun PerfilScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Datos personales del paciente
+                // Información personal del paciente
                 Text(
                     text = "Información Personal",
                     style = MaterialTheme.typography.titleMedium,
@@ -112,13 +113,13 @@ fun PerfilScreen(
                             etiqueta = "Documento de Identidad",
                             valor = paciente.documento
                         )
-                        Divider(modifier = Modifier.padding(vertical = 12.dp))
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
                         FilaDatoPerfil(
                             icono = Icons.Default.Email,
                             etiqueta = "Correo Electrónico",
                             valor = paciente.correo
                         )
-                        Divider(modifier = Modifier.padding(vertical = 12.dp))
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
                         FilaDatoPerfil(
                             icono = Icons.Default.Phone,
                             etiqueta = "Teléfono de Contacto",
@@ -129,7 +130,7 @@ fun PerfilScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // RF-06: Configuración del alternador claro / oscuro
+                // Conmutador claro / oscuro (RF-06)
                 Text(
                     text = "Apariencia",
                     style = MaterialTheme.typography.titleMedium,
@@ -180,7 +181,7 @@ fun PerfilScreen(
 
 @Composable
 private fun FilaDatoPerfil(
-    icono: androidx.compose.ui.graphics.vector.ImageVector,
+    icono: ImageVector,
     etiqueta: String,
     valor: String
 ) {
