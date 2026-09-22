@@ -13,22 +13,31 @@ fun BottomNavBar(
     onSeleccionarPantalla: (Screen) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Declarar la lista dentro de la función garantiza que los objetos ya existen en memoria
+    val items = listOf(
+        Screen.Citas,
+        Screen.Solicitar,
+        Screen.Perfil
+    )
+
     NavigationBar(modifier = modifier) {
-        Screen.itemsBarraInferior.forEach { pantalla ->
-            val seleccionada = when (pantallaActual) {
-                is Screen.Detalle -> false
-                else -> pantallaActual.ruta == pantalla.ruta
-            }
+        items.forEach { screen ->
+            val seleccionado = pantallaActual::class == screen::class
 
             NavigationBarItem(
-                selected = seleccionada,
-                onClick = { onSeleccionarPantalla(pantalla) },
+                selected = seleccionado,
+                onClick = { onSeleccionarPantalla(screen) },
                 icon = {
-                    pantalla.icono?.let {
-                        Icon(imageVector = it, contentDescription = pantalla.titulo)
+                    screen.icono?.let {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = screen.titulo
+                        )
                     }
                 },
-                label = { Text(pantalla.titulo) }
+                label = {
+                    Text(text = screen.titulo)
+                }
             )
         }
     }

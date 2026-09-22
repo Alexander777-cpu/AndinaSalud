@@ -15,51 +15,41 @@ import pe.upeu.andinasalud.presentation.perfil.PerfilViewModel
 import pe.upeu.andinasalud.presentation.solicitud.SolicitudViewModel
 
 val appModule = module {
-    // REGLA CRÍTICA: single y tipado a la interfaz CitaRepository
     single<CitaRepository> { CitaRepositoryFake() }
 
-    // Casos de uso
     factory { ObtenerCitasUseCase(get()) }
     factory { SolicitarCitaUseCase(get()) }
     factory { CancelarCitaUseCase(get()) }
 
-    // ViewModels
     factory { CitasViewModel(get(), get()) }
     factory { SolicitudViewModel(get(), get()) }
     factory { PerfilViewModel(get()) }
     factory { DetalleViewModel(get(), get()) }
 }
 
-var koinInstance: Koin? = null
+private var koinApp: Koin? = null
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
-    if (koinInstance == null) {
-        runCatching {
-            koinInstance = startKoin {
+    if (koinApp == null) {
+        try {
+            koinApp = startKoin {
                 appDeclaration()
                 modules(appModule)
             }.koin
+        } catch (_: Exception) {
+            // Evita crash si ya estaba iniciado previamente
         }
     }
 }
 
-// Funciones auxiliares de inyección segura para la interfaz de Compose
-fun getCitasViewModel(): CitasViewModel = koinInstance?.get() ?: run {
-    initKoin()
-    koinInstance!!.get()
+fun getKoin(): Koin {
+    if (koinApp == null) {
+        initKoin()
+    }
+    return koinApp ?: error("No se pudo inicializar Koin")
 }
 
-fun getSolicitudViewModel(): SolicitudViewModel = koinInstance?.get() ?: run {
-    initKoin()
-    koinInstance!!.get()
-}
-
-fun getPerfilViewModel(): PerfilViewModel = koinInstance?.get() ?: run {
-    initKoin()
-    koinInstance!!.get()
-}
-
-fun getDetalleViewModel(): DetalleViewModel = koinInstance?.get() ?: run {
-    initKoin()
-    koinInstance!!.get()
-}
+fun getCitasViewModel(): CitasViewModel = getKoin().get()
+fun getSolicitudViewModel(): SolicitudViewModel = getKoin().get()
+fun getPerfilViewModel(): PerfilViewModel = getKoin().get()
+fun getDetalleViewModel(): DetalleViewModel = getKoin().get()

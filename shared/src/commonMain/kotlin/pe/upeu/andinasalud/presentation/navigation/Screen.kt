@@ -11,32 +11,26 @@ sealed class Screen(
     val titulo: String,
     val icono: ImageVector? = null
 ) {
-    // Pantallas principales de la barra inferior (RF-07)
-    object Citas : Screen(
+    data object Citas : Screen(
         ruta = "citas",
         titulo = "Mis Citas",
         icono = Icons.Default.CalendarMonth
     )
 
-    object Solicitar : Screen(
+    data object Solicitar : Screen(
         ruta = "solicitar",
         titulo = "Solicitar",
         icono = Icons.Default.AddCircle
     )
 
-    object Perfil : Screen(
+    data object Perfil : Screen(
         ruta = "perfil",
         titulo = "Perfil",
         icono = Icons.Default.Person
     )
 
-    // Pantalla secundaria de detalle (RF-03)
     data class Detalle(val citaId: Long) : Screen(
         ruta = "detalle/$citaId",
         titulo = "Detalle de Cita"
     )
-
-    companion object {
-        val itemsBarraInferior = listOf(Citas, Solicitar, Perfil)
-    }
 }
